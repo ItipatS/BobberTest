@@ -1,0 +1,4 @@
+{
+  "parent": "fishon:bobber/magic_ball",
+  "textures": {"0": "fishon:bobber/magic_ball_hooked", "particle": "fishon:bobber/magic_ball_hooked"}
+}

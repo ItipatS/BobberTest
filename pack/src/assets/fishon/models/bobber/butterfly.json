@@ -1,0 +1,14 @@
+{
+  "credit": "FishOnMC",
+  "texture_size": [32, 32],
+  "textures": {"0": "fishon:bobber/butterfly", "particle": "fishon:bobber/butterfly"},
+  "elements": [{
+    "name": "double_sided_butterfly",
+    "from": [3, 4, 7.99], "to": [13, 14, 8.01],
+    "rotation": {"origin": [8, 8, 8], "axis": "y", "angle": 0},
+    "faces": {
+      "north": {"uv": [0, 0, 16, 16], "texture": "#0"},
+      "south": {"uv": [0, 0, 16, 16], "texture": "#0"}
+    }
+  }]
+}

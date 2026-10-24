@@ -1,0 +1,313 @@
+# Which bobber a player gets: their equipped bobber cosmetic (the menu, or FishOnMC's cosmetic tab) wins; then a
+# skin the rod itself carries; then "default". Most rods are plain and simply use "default".
+#
+# Rods that come with their own bobber (e.g. only rare rods): map the rod's item_model key to a skin here, or tag
+# the rod with the PDC value fishon:skin. Example:  "fishon:rod/legendary_trident": magic_ball
+rods: {}
+
+# The display rides the hook, so its origin is the hook's passenger attachment point: 0.25 above the hook,
+# and a resting hook sits exactly on the water surface (measured: avg y 64.889 on a 64 water block).
+# y-offset -0.25 puts the model's y = 8 on the surface. Scale is applied around that point, so a model whose
+# lowest pixel is d below y = 8 sits on the water at y-offset = -0.25 + d / 16 * scale.
+#
+# billboard: fixed | vertical | horizontal | center. Flat planes (like butterfly) need one that faces
+# the camera, or they vanish edge-on.
+# bite-model: shown on BITE. bite-model-ticks > 0 swaps back after that many ticks (a flash); 0 holds it until the
+# hook is gone, i.e. for the whole minigame.
+#
+# Recolouring: colors is one "#rrggbb" per tint index of the model (faces with "tintindex"). A rod can override
+# them with its fishon:colors PDC value (/bobber give <skin> #c1 #c2), and /bobber color recolours a live bobber.
+# Leave colors out to use the defaults in the skin's item definition. bite-colors flash on a bite, for
+# bite-model-ticks. glow: true renders full-bright (lanterns) instead of taking light from the world.
+skins:
+  default:                       # 0 = bottom half, 1 = top half + tip
+    model: fishon:bobber/default
+    colors: ["#f4f4f4", "#e23b3b"]
+    scale: 0.75
+    y-offset: -0.25
+    sounds:
+      cast: minecraft:entity.fishing_bobber.throw
+      bite: minecraft:entity.fishing_bobber.splash
+      catch: minecraft:entity.fishing_bobber.retrieve
+      escape: minecraft:entity.fish.swim
+    particles: classic
+    animation: classic
+  magic_ball:
+    model: fishon:bobber/magic_ball
+    bite-model: fishon:bobber/magic_ball_hooked
+    # magic_ball_hooked animates at 1 tick per frame: a great burst, a strobe if held. Burst, then calm.
+    bite-model-ticks: 10
+    scale: 1.0
+    y-offset: -0.13
+    sounds:
+      cast: minecraft:block.amethyst_block.chime
+      bite: minecraft:block.amethyst_cluster.break
+      catch: minecraft:block.enchantment_table.use
+      escape: minecraft:block.beacon.deactivate
+    particles: magic
+    animation: magic
+  butterfly:
+    model: fishon:bobber/butterfly
+    billboard: center
+    scale: 0.8
+    y-offset: -0.05
+    sounds:
+      cast: minecraft:entity.fishing_bobber.throw
+      bite: minecraft:block.azalea_leaves.break
+      catch: minecraft:block.azalea_leaves.place
+      escape: minecraft:entity.fish.swim
+    particles: butterfly
+    animation: butterfly
+  # Recolourable mock skins (pack/generate_skins.py). Tint 0 / tint 1 noted per skin.
+  duck:                          # 0 = body + head, 1 = beak
+    model: fishon:bobber/duck
+    colors: ["#ffd84a", "#ff8a1f"]
+    scale: 0.7
+    y-offset: -0.25
+    sounds:
+      cast: minecraft:entity.chicken.egg
+      bite: minecraft:entity.chicken.hurt
+      catch: minecraft:entity.chicken.ambient
+      escape: minecraft:entity.fish.swim
+    particles: duck
+    animation: duck
+  lilypad:                       # 0 = pad, 1 = petals
+    model: fishon:bobber/lilypad
+    colors: ["#5fbf4a", "#ff8fc8"]
+    scale: 0.75
+    y-offset: -0.25
+    sounds:
+      cast: minecraft:block.big_dripleaf.place
+      bite: minecraft:block.big_dripleaf.tilt_down
+      catch: minecraft:block.spore_blossom.place
+      escape: minecraft:block.big_dripleaf.tilt_up
+    particles: lilypad
+    animation: lilypad
+  lantern:                       # 0 = paper, 1 = tassel
+    model: fishon:bobber/lantern
+    colors: ["#ff5a3c", "#ffd23f"]
+    bite-colors: ["#ffb36b", "#ffffff"]
+    bite-model-ticks: 8
+    glow: true
+    scale: 0.75
+    y-offset: -0.25
+    sounds:
+      cast: minecraft:block.lantern.place
+      bite: minecraft:item.firecharge.use
+      catch: minecraft:block.lantern.break
+      escape: minecraft:block.fire.extinguish
+    particles: lantern
+    animation: lantern
+
+# Particle presets, one entry per state. Particle names are Bukkit Particle enum names (no-data particles only).
+particles:
+  classic:
+    cast: {particle: CLOUD, count: 1, spread: 0.02, speed: 0.0}
+    lured: {particle: FISHING, count: 4, spread: 0.25, speed: 0.0}
+    bite: {particle: SPLASH, count: 20, spread: 0.2, speed: 0.1}
+    catch: {particle: HAPPY_VILLAGER, count: 12, spread: 0.4, speed: 0.0}
+    escape: {particle: SPLASH, count: 30, spread: 0.3, speed: 0.1}
+  magic:
+    cast: {particle: WITCH, count: 2, spread: 0.05, speed: 0.0}
+    lured: {particle: ENCHANT, count: 10, spread: 0.3, speed: 0.5}
+    bite: {particle: REVERSE_PORTAL, count: 30, spread: 0.15, speed: 0.15}
+    catch: {particle: GLOW, count: 20, spread: 0.4, speed: 0.0}
+    escape: {particle: SMOKE, count: 12, spread: 0.15, speed: 0.02}
+  butterfly:
+    cast: {particle: END_ROD, count: 1, spread: 0.02, speed: 0.0}
+    lured: {particle: WAX_ON, count: 3, spread: 0.3, speed: 0.0}
+    bite: {particle: SPLASH, count: 25, spread: 0.2, speed: 0.1}
+    catch: {particle: END_ROD, count: 20, spread: 0.3, speed: 0.08}
+    escape: {particle: SPLASH, count: 20, spread: 0.3, speed: 0.1}
+  duck:
+    cast: {particle: CLOUD, count: 1, spread: 0.02, speed: 0.0}
+    lured: {particle: SPLASH, count: 6, spread: 0.2, speed: 0.05}
+    bite: {particle: SPLASH, count: 30, spread: 0.25, speed: 0.15}
+    catch: {particle: HEART, count: 4, spread: 0.3, speed: 0.0}
+    escape: {particle: SPLASH, count: 25, spread: 0.3, speed: 0.1}
+  lilypad:
+    cast: {particle: WAX_OFF, count: 1, spread: 0.02, speed: 0.0}
+    lured: {particle: SPORE_BLOSSOM_AIR, count: 6, spread: 0.3, speed: 0.0}
+    bite: {particle: SPLASH, count: 25, spread: 0.3, speed: 0.1}
+    catch: {particle: HAPPY_VILLAGER, count: 15, spread: 0.4, speed: 0.0}
+    escape: {particle: SPLASH, count: 20, spread: 0.3, speed: 0.1}
+  lantern:
+    cast: {particle: SMALL_FLAME, count: 1, spread: 0.02, speed: 0.0}
+    lured: {particle: SMALL_FLAME, count: 4, spread: 0.2, speed: 0.01}
+    bite: {particle: FLAME, count: 12, spread: 0.15, speed: 0.04}
+    catch: {particle: LAVA, count: 6, spread: 0.2, speed: 0.0}
+    escape: {particle: SMOKE, count: 15, spread: 0.15, speed: 0.03}
+
+# Animation presets: keyframe lists per state, played with display interpolation.
+# idle loops while waiting; hooked loops instead once a bite has started the minigame (falls back to idle).
+# lured and bite play once, then the loop resumes. caught / escaped play once when a minigame ends
+# (hook carries fishon:result), with the display unmounted in place, then it's removed.
+# Each keyframe interpolates to its target over `ticks`. y is added to y-offset, scale multiplies the skin scale,
+# rotate-x / rotate-y / rotate-z are degrees. Keep each rotation step under 180 degrees: interpolation takes the
+# short way round. The last lured/bite keyframe should return to rest.
+animations:
+  classic:
+    # Gentle rocking on the water while waiting.
+    idle:
+      - {ticks: 18, rotate-z: 5, rotate-x: 2, y: 0.02}
+      - {ticks: 18, rotate-z: -5, rotate-x: -2, y: 0.0}
+    lured:
+      - {ticks: 5, rotate-z: 10}
+      - {ticks: 6, rotate-z: -10}
+      - {ticks: 5, rotate-z: 0}
+    bite:
+      - {ticks: 2, y: -0.25, scale: [1.25, 0.7, 1.25]}
+      - {ticks: 4, y: -0.08, scale: [0.9, 1.1, 0.9]}
+      - {ticks: 4, y: 0.0, scale: [1.0, 1.0, 1.0]}
+    # Tugged under and back while the fish fights.
+    hooked:
+      - {ticks: 3, y: -0.12, rotate-z: 12}
+      - {ticks: 3, y: -0.04, rotate-z: -12}
+    caught:
+      - {ticks: 3, y: 0.6, scale: 1.3}
+      - {ticks: 5, y: 0.9, scale: 0.01}
+    escaped:
+      - {ticks: 4, y: -0.1, scale: [1.2, 0.6, 1.2]}
+      - {ticks: 8, y: -0.5, scale: 0.01}
+  magic:
+    # Slow spin, 120 degrees per step so interpolation never takes the short way backwards.
+    idle:
+      - {ticks: 20, rotate-y: 120, y: 0.04}
+      - {ticks: 20, rotate-y: 240, y: 0.0}
+      - {ticks: 20, rotate-y: 360, y: 0.04}
+    lured:
+      - {ticks: 6, y: 0.1, scale: 1.1}
+      - {ticks: 6, y: 0.0, scale: 1.0}
+    # Charge up, fast spin while the hooked model shows, then rest.
+    bite:
+      - {ticks: 2, y: 0.15, scale: 1.5, rotate-y: 90}
+      - {ticks: 3, y: 0.1, scale: 1.3, rotate-y: 200}
+      - {ticks: 3, y: 0.1, scale: 1.4, rotate-y: 310}
+      - {ticks: 5, y: 0.0, scale: 1.0, rotate-y: 360}
+    # Steady spin with a soft pulse while hooked (each step 120 degrees).
+    hooked:
+      - {ticks: 8, rotate-y: 120, scale: 1.12, y: 0.05}
+      - {ticks: 8, rotate-y: 240, scale: 1.04, y: 0.02}
+      - {ticks: 8, rotate-y: 360, scale: 1.12, y: 0.05}
+    caught:
+      - {ticks: 3, y: 0.3, scale: 1.8, rotate-y: 120}
+      - {ticks: 4, y: 0.5, scale: 0.01, rotate-y: 240}
+    escaped:
+      - {ticks: 6, scale: 0.7, rotate-y: 60}
+      - {ticks: 10, y: -0.4, scale: 0.01, rotate-y: 120}
+  butterfly:
+    # Gentle hover; the texture flaps the wings.
+    idle:
+      - {ticks: 12, y: 0.07}
+      - {ticks: 12, y: 0.0}
+    lured:
+      - {ticks: 4, y: 0.15, rotate-z: 10}
+      - {ticks: 4, y: 0.05, rotate-z: -10}
+      - {ticks: 4, y: 0.0, rotate-z: 0}
+    # Startled jump off the water and back down.
+    bite:
+      - {ticks: 2, y: 0.35, scale: 1.2}
+      - {ticks: 4, y: 0.15, scale: 1.1, rotate-z: 15}
+      - {ticks: 5, y: 0.0, scale: 1.0, rotate-z: 0}
+    # Panicked flutter while hooked.
+    hooked:
+      - {ticks: 2, y: 0.12, rotate-z: 10}
+      - {ticks: 2, y: 0.05, rotate-z: -10}
+    caught:
+      - {ticks: 4, y: 0.5, scale: 1.2}
+      - {ticks: 8, y: 1.2, scale: 0.01}
+    escaped:
+      - {ticks: 6, y: 0.6, rotate-z: 25}
+      - {ticks: 8, y: 1.4, scale: 0.01, rotate-z: -20}
+  duck:
+    # Paddles left and right, bobbing.
+    idle:
+      - {ticks: 20, rotate-y: 25, y: 0.02}
+      - {ticks: 20, rotate-y: 0, y: 0.0}
+      - {ticks: 20, rotate-y: -25, y: 0.02}
+      - {ticks: 20, rotate-y: 0, y: 0.0}
+    lured:
+      - {ticks: 4, y: 0.12, rotate-z: 8}
+      - {ticks: 5, y: 0.0, rotate-z: 0}
+    # Dives head first, pops back up.
+    bite:
+      - {ticks: 2, y: -0.3, rotate-z: -35}
+      - {ticks: 4, y: -0.1, rotate-z: -10}
+      - {ticks: 4, y: 0.0, rotate-z: 0}
+    hooked:
+      - {ticks: 2, rotate-y: 20, rotate-z: 8}
+      - {ticks: 2, rotate-y: -20, rotate-z: -8}
+    caught:
+      - {ticks: 3, y: 0.5, scale: 1.2, rotate-y: 120}
+      - {ticks: 5, y: 0.9, scale: 0.01, rotate-y: 240}
+    escaped:
+      - {ticks: 6, y: -0.2, rotate-z: -30}
+      - {ticks: 8, y: -0.6, scale: 0.01, rotate-z: -60}
+  lilypad:
+    # Drifts round slowly (120 degrees per step).
+    idle:
+      - {ticks: 40, rotate-y: 120, y: 0.01}
+      - {ticks: 40, rotate-y: 240, y: 0.0}
+      - {ticks: 40, rotate-y: 360, y: 0.01}
+    lured:
+      - {ticks: 4, scale: 1.08}
+      - {ticks: 6, scale: 1.0}
+    bite:
+      - {ticks: 2, y: -0.12, scale: [1.15, 0.8, 1.15]}
+      - {ticks: 4, y: 0.02, scale: [0.95, 1.1, 0.95]}
+      - {ticks: 4, y: 0.0, scale: 1.0}
+    hooked:
+      - {ticks: 4, rotate-x: 6, rotate-z: -6, y: -0.03}
+      - {ticks: 4, rotate-x: -6, rotate-z: 6, y: 0.0}
+    caught:
+      - {ticks: 4, y: 0.4, scale: 1.25, rotate-y: 90}
+      - {ticks: 6, y: 0.7, scale: 0.01, rotate-y: 200}
+    escaped:
+      - {ticks: 8, y: -0.15, scale: 0.8}
+      - {ticks: 10, y: -0.5, scale: 0.01}
+  lantern:
+    # Sways as if floating on a breeze.
+    idle:
+      - {ticks: 16, rotate-z: 6, rotate-x: 3, y: 0.03}
+      - {ticks: 16, rotate-z: -6, rotate-x: -3, y: 0.0}
+    lured:
+      - {ticks: 4, y: 0.08}
+      - {ticks: 6, y: 0.0}
+    bite:
+      - {ticks: 2, scale: 1.25, y: 0.05}
+      - {ticks: 5, scale: 1.0, y: 0.0}
+    hooked:
+      - {ticks: 3, rotate-z: 10, y: 0.02}
+      - {ticks: 3, rotate-z: -10, y: 0.0}
+    # Released into the sky.
+    caught:
+      - {ticks: 10, y: 0.8, rotate-z: 5}
+      - {ticks: 12, y: 1.8, scale: 0.01, rotate-z: -5}
+    escaped:
+      - {ticks: 6, rotate-z: 40, y: -0.1}
+      - {ticks: 10, rotate-z: 80, y: -0.5, scale: 0.01}
+
+# Customisation menu (/bobber menu, or the item locked in the last hotbar slot). The first 16 palette entries become
+# colour buttons; item is any material used as the button icon. Set hotbar-item: false if a cosmetics tab
+# elsewhere replaces it (the /bobber menu command keeps working).
+menu:
+  hotbar-item: true
+  palette:
+    - {name: White, item: WHITE_DYE, color: "#f4f4f4"}
+    - {name: Light Grey, item: LIGHT_GRAY_DYE, color: "#b8b8b8"}
+    - {name: Grey, item: GRAY_DYE, color: "#5e5e5e"}
+    - {name: Black, item: BLACK_DYE, color: "#2b2b2b"}
+    - {name: Brown, item: BROWN_DYE, color: "#8b5a2b"}
+    - {name: Red, item: RED_DYE, color: "#e23b3b"}
+    - {name: Orange, item: ORANGE_DYE, color: "#ff8a1f"}
+    - {name: Yellow, item: YELLOW_DYE, color: "#ffd23f"}
+    - {name: Lime, item: LIME_DYE, color: "#7cff6b"}
+    - {name: Green, item: GREEN_DYE, color: "#3c9a3c"}
+    - {name: Cyan, item: CYAN_DYE, color: "#40e0d0"}
+    - {name: Light Blue, item: LIGHT_BLUE_DYE, color: "#6fc8ff"}
+    - {name: Blue, item: BLUE_DYE, color: "#3f5bff"}
+    - {name: Purple, item: PURPLE_DYE, color: "#9b4dff"}
+    - {name: Magenta, item: MAGENTA_DYE, color: "#e44fd6"}
+    - {name: Pink, item: PINK_DYE, color: "#ff8fc8"}
+
+sweep-interval-seconds: 30

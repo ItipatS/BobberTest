@@ -1,0 +1,33 @@
+# Build output
+plugin/.gradle/
+plugin/build/
+plugin/*/build/
+pack/build/
+__pycache__/
+
+# Local test setup and tooling: kept on this machine, not published. The repo carries what a server needs.
+/tools/
+/downloads/
+/servers/
+/logs/
+/bots/
+/scripts/
+/docs/
+/results/
+/plugin/testkit/
+/plugin/gradle.properties
+/evidence/
+pack/generate_skins.py
+pack/build_pack.py
+
+# Private planning notes
+/FishOnMC Bobber Spike*.md
+
+# Art sources for bobbers that were removed (old default, katana) and the art zip's own notes
+pack/source/default.bbmodel
+pack/source/katana_slash.bbmodel
+pack/source/katana_slash_bite.bbmodel
+pack/source/README.txt
+
+# The proposal is a moderation-ticket message, not part of the repo
+/PROPOSAL.md

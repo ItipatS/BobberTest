@@ -1,0 +1,18 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "fishon:bobber/default",
+    "tints": [
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": -723724
+      },
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 1,
+        "default": -1950917
+      }
+    ]
+  }
+}

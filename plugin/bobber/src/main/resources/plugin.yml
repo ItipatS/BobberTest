@@ -1,0 +1,12 @@
+name: FishOnBobber
+version: ${version}
+main: gg.fishon.bobber.BobberPlugin
+api-version: '26.1'
+description: Custom, recolourable, animated fishing bobbers for vanilla clients (ItemDisplay riding the FishHook).
+commands:
+  bobber:
+    description: Bobber menu (everyone) and tuning tools (op).
+    usage: /bobber <menu|stats|reload|give|color|anim>
+permissions:
+  fishon.bobber.admin:
+    default: op

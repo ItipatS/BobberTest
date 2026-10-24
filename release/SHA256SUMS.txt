@@ -1,0 +1,3 @@
+c84ca2a31bca2a47b52c1e1603d569325089f1973a76f7c16564d833c6d12770  FishOnBobber-0.1.0.jar
+00647cfab42b1f8b5e49ccac9627ed7f3bd8180ffe8b0052a910e0096b65a8a2  FishOnBobber-pack.zip
+pack sha1 (resource-pack-sha1): ec39869c8cce8ecb51f6c9cdd410f5b6d2ef391d
