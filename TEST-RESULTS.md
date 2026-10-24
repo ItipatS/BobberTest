@@ -1,5 +1,20 @@
 # Test results
 
+## Server version compatibility
+
+The same Java 21 jar was tested on both ends of the supported range:
+
+| Server | Java | Result |
+| --- | --- | --- |
+| Paper 1.21.11 build 132 | 21 | Loaded 6 skins; cast created 1 tracked hook and 1 display; disconnect cleaned both up |
+| Paper 26.1.2 build 74 | 25 | Loaded 6 skins; cast created 1 tracked hook and 1 display; disconnect cleaned both up |
+
+Both servers also passed plugin enable/disable, `/bobber stats`, and `/bobber reload` without plugin errors. The
+resource pack metadata supports formats 75 through 84, covering 1.21.11 through 26.1.2. A real 1.21.11 client also
+accepted the server pack and rendered the custom, recolourable bobbers correctly.
+
+## Performance and behaviour
+
 **Setup:** Velocity 4.3.0 in front of AdvancedSlimePaper 26.1.2 (Java 25) on a desktop PC (Ryzen 5 5600X). Players
 are bots on the real 26.1 protocol fishing at one pond, plus a real 26.1.2 client. Performance tests were run
 with the plugin installed and again with it removed, so the difference is the plugin's cost.

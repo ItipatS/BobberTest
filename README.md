@@ -26,7 +26,8 @@ It's free :3 use it, change it, or ignore it.
    pink and black).
 3. Cast a rod. `/bobber menu` picks a bobber and colours; tune everything in `config.yml`, then `/bobber reload`.
 
-Needs Paper 26.1.x and Java 25.
+Base version is Paper 1.21.11 with Java 21. The same jar is tested on Paper 26.1.2 with Java 25.
+The included resource pack declares support for both client pack formats, 75 through 84.
 
 ## Hooking into existing plugins (optional)
 
@@ -42,6 +43,8 @@ hook.getPersistentDataContainer().set(new NamespacedKey("fishon", "result"), Per
 ## Size, performance, safety
 
 - Plugin 49 KB, pack 13 KB.
+- Compatibility tested on Paper 1.21.11 (Java 21) and Paper 26.1.2 (Java 25): the same jar loaded, created a
+  display for a cast bobber, and cleaned it up when the player left on both versions.
 - 50 players fishing at once: no measurable tick-time difference (2.83 ms with and without it). Details in
   [TEST-RESULTS.md](TEST-RESULTS.md).
 - No network or file access, no reflection; it only reacts to fishing events after other plugins.
